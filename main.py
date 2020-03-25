@@ -106,5 +106,5 @@ def blogPage():
 
 
 if __name__ == '__main__':
-    app.debug = True
+    db.create_all()
     app.run()
