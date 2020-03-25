@@ -36,6 +36,12 @@ class CoronaAPI(ma.Schema):
 corona_schema = CoronaAPI()
 coronas_schema = CoronaAPI(many=True)
   
+       
+       
+@app.route('/hello')
+def hello():
+   
+    return "hello world"
         
 @app.route('/')
 def hello():
