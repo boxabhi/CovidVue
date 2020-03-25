@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/data'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 app.config['SECRET_KEY'] = 'corona_api' 
