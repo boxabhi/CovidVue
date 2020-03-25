@@ -6,7 +6,7 @@ import json
 from flask_marshmallow import Marshmallow
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/data'
+app.config['DATABASE_URL'] = 'mysql://root:@localhost/data'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 db = SQLAlchemy(app)
 app.config['SECRET_KEY'] = 'corona_api' 
