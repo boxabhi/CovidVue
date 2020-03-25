@@ -43,7 +43,6 @@ coronas_schema = CoronaAPI(many=True)
        
 @app.route('/hello')
 def sh():
-   
     return "hello world"
         
 @app.route('/')
