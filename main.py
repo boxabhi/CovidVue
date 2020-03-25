@@ -4,10 +4,13 @@ from bs4 import BeautifulSoup
 import requests
 import json
 from flask_marshmallow import Marshmallow
-
+import os
 app = Flask(__name__)
-app.config['DATABASE_URL'] = 'postgresql://localhost/data'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+
+
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/data'
+
 db = SQLAlchemy(app)
 app.config['SECRET_KEY'] = 'corona_api' 
 ma = Marshmallow(app)
@@ -39,7 +42,7 @@ coronas_schema = CoronaAPI(many=True)
        
        
 @app.route('/hello')
-def hello():
+def sh():
    
     return "hello world"
         
