@@ -19,7 +19,6 @@ app.config['SECRET_KEY'] = 'corona_api'
 ma = Marshmallow(app)
 
 
-
 class corona_data(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     state = db.Column(db.String(50), unique=True)
