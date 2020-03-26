@@ -14,9 +14,19 @@
                 </div>
                 <p>Your email {{email}}</p>
             </div>
-            <div class="col-6 mx-auto mt-3">
-                <input type="text" v-if="res.api_key" :value="res.api_key" disabled class="form-control text-center">
 
+
+            <div class="col-6 mx-auto mt-3" v-if="res.api_key">
+                <input type="text" v-if="res.api_key" :value="res.api_key" disabled class="form-control text-center">
+            <div class="container mx-auto pl-5 pr-5">
+<pre>
+    GET ALL RESPONSE - 'https://whereiscovidapi.herokuapp.com/api/all/YOUR_API_KEY'
+    GET BY STATE - 'https://whereiscovidapi.herokuapp.com/api/state/YOUR_API_KEY/state'
+    <p>You can search for 25 states data 
+        <br>Happy coding! :)
+    </p>
+</pre>
+        </div>
             </div>
 
 <router-link to="/"><button class="btn btn-warning">Back </button> </router-link>   
@@ -61,3 +71,22 @@
         }
     }
 </script>
+
+<style>
+pre {
+    background: #f4f4f4;
+    border: 1px solid #ddd;
+    border-left: 3px solid #f36d33;
+    color: #666;
+    page-break-inside: avoid;
+    font-family: monospace;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 1.6em;
+    max-width: 100%;
+    overflow: auto;
+    padding: 1em 1em;
+    display: block;
+    word-wrap: break-word;
+}
+</style>

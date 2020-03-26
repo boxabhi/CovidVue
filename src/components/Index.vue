@@ -77,8 +77,8 @@ export default {
   methods : {
     getCovid(){
       var s = this.new_state;
-      console.log(s)
-      fetch(`https://cors-anywhere.herokuapp.com/https://whereiscovidapi.herokuapp.com/api/${s}`)
+  
+      fetch(`https://cors-anywhere.herokuapp.com/https://whereiscovidapi.herokuapp.com/api/state/E1BYpVwtm8LiUS3vgSUEETh5a/${s}`)
     .then(response => response.json())
     .then(data => {
  this.real_data = data
@@ -96,7 +96,7 @@ export default {
         this.state = data.region
         this.state = (JSON.parse(JSON.stringify(this.state)))
       
-         fetch(`https://cors-anywhere.herokuapp.com/https://whereiscovidapi.herokuapp.com/api/${data.region}`)
+fetch(`https://cors-anywhere.herokuapp.com/https://whereiscovidapi.herokuapp.com/api/state/E1BYpVwtm8LiUS3vgSUEETh5a/${data.region}`)
     .then(response =>response.json())
     .then(data => {
       this.real_data = data
@@ -107,7 +107,7 @@ export default {
     },
 
   allData(){
-     fetch(`https://cors-anywhere.herokuapp.com/https://whereiscovidapi.herokuapp.com/api`)
+     fetch(`https://whereiscovidapi.herokuapp.com/api/all/E1BYpVwtm8LiUS3vgSUEETh5a`)
     .then(response => response.json())
     .then(data => {
      
