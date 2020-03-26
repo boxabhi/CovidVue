@@ -113,15 +113,13 @@ def blogPage():
 
 
 
-@app.route('/users',methods=['POST'])
-def global_api():
-    if request.method == 'POST':
-        email = request.form['email']
-        api_key = ''.join(random.choices(string.ascii_letters + string.digits, k=25))
-        user = Users(email = email, api_key = api_key)
-        db.session.add(user)
-        db.session.commit()  
-        response = {
+@app.route('/users/<email>',methods['GET'])
+def global_api(email):
+    api_key = ''.join(random.choices(string.ascii_letters + string.digits, k=25))
+    user = Users(email = email, api_key = api_key)
+    db.session.add(user)
+    db.session.commit()  
+    response = {
             'email' :email,
             'api_key' : api_key,
             'status' : 200
