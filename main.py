@@ -4,12 +4,15 @@ from bs4 import BeautifulSoup
 import requests
 import json
 from flask_marshmallow import Marshmallow
-import os
+import os,datetime
+import random, string
+from flask import Response
 app = Flask(__name__)
 
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/data'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 app.config['SECRET_KEY'] = 'corona_api' 
@@ -30,22 +33,30 @@ class corona_data(db.Model):
         self.confirmed = confirmed
         self.discharged = discharged
         self.deaths = deaths
+
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key=True)   
+    email = db.Column(db.String(100))
+    api_key = db.Column(db.String(100))
+    created_at = db.Column(db.String(50),default=datetime.datetime.utcnow) 
+    
         
 class CoronaAPI(ma.Schema):
     class Meta:
         fields = ("id", "state", "confirmed","discharged","deaths")
-        
+      
 
 corona_schema = CoronaAPI()
 coronas_schema = CoronaAPI(many=True)
   
-       
+
+    
        
 @app.route('/hello')
 def sh():
     return "hello world"
         
-@app.route('/')
+@app.route('/api')
 def hello():
     data = corona_data.query.all()
     response = coronas_schema.dump(data)
@@ -74,21 +85,15 @@ def collect():
         state = s[1].lower()
         confirmed = s[2]
         discharged = s[4]
-        deaths = s[5]       
-            
-            
-            
+        deaths = s[5]        
         data= corona_data(id=id,state = state, confirmed = confirmed, discharged =discharged,deaths =deaths)
         db.session.add(data)
         db.session.commit()
         if s[0] == 25:
             break
-        
-        
-        
     return "success"
 
-@app.route('/<state>')
+@app.route('/api/<state>')
 def show(state):
     result = corona_data.query.filter_by(state=state.lower())
     response = coronas_schema.dump(result)
@@ -96,7 +101,7 @@ def show(state):
 
 
 
-@app.route('/delete')
+@app.route('/api/delete')
 def blogPage():
     data = corona_data.query.all()
     for i in data:
@@ -105,6 +110,33 @@ def blogPage():
     return "Sucess"
 
 
+
+
+
+
+@app.route('/users',methods=['POST'])
+def global_api():
+    if request.method == 'POST':
+        email = request.form['email']
+        api_key = ''.join(random.choices(string.ascii_letters + string.digits, k=25))
+        user = Users(email = email, api_key = api_key)
+        db.session.add(user)
+        db.session.commit()  
+        response = {
+            'email' :email,
+            'api_key' : api_key,
+            'status' : 200
+        }
+    
+    return response
+       
+    
+
+
 if __name__ == '__main__':
-    db.create_all()
-    app.run()
+    app.debug = True
+    app.run()          
+
+# if __name__ == '__main__':
+#     app.debug = True
+#     app.run()
