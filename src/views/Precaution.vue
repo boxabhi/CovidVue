@@ -62,7 +62,14 @@ Why? Washing your hands with soap and water or using alcohol-based hand rub kill
        </div>
       
     </div>
+
+   
 </div>
+</div>
+
+<div class="text-center">
+
+<router-link to="/"><button class="btn btn-primary mx-auto mt-3">Back </button> </router-link> 
 </div>
 <div class="container text-center mt-5">
     <img src="@/assets/quarantine.png" class="img-responsive imf-fluid" style="height:50px"> #BeatHome

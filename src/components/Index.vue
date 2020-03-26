@@ -35,7 +35,9 @@
       <a class="nav-link active" href="https://github.com/boxabhi/CovidVue">Code on <i class="fab fa-github"></i> </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="https://whereiscovidapi.herokuapp.com/api">Get API <i class="fab fa-firefox-browser"></i></a>
+       <router-link to="/api">   
+      <a class="nav-link">Get API <i class="fab fa-firefox-browser"></i></a>
+     </router-link>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="https://www.linkedin.com/in/gupta-abhijeet/">Linkedin <i class="fab fa-linkedin"></i></a>
@@ -80,7 +82,7 @@ export default {
     .then(response => response.json())
     .then(data => {
  this.real_data = data
-      console.log('new state data',this.real_data)
+
     })
     },
 
@@ -111,7 +113,6 @@ export default {
      
       this.all_data = data
      
-      console.log('d', this.all_data)
     })
   }
 
