@@ -7,12 +7,13 @@ from flask_marshmallow import Marshmallow
 import os,datetime
 import random, string
 from flask import Response
+from datetime import date
 app = Flask(__name__)
 
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/data'
+#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/data'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 app.config['SECRET_KEY'] = 'corona_api' 
@@ -38,16 +39,24 @@ class Users(db.Model):
     email = db.Column(db.String(100))
     api_key = db.Column(db.String(100))
     created_at = db.Column(db.String(50),default=datetime.datetime.utcnow) 
-    
+    def __init__(self,id,email,api_key,created):
+        self.id = ma.auto_field()
+        self.email = email
+        self.api_key = api_key
+        
         
 class CoronaAPI(ma.Schema):
     class Meta:
         fields = ("id", "state", "confirmed","discharged","deaths")
-      
+
+class UsersAPI(ma.Schema):
+    class Meta:
+        fields = ("id", "email","api_key")      
 
 corona_schema = CoronaAPI()
 coronas_schema = CoronaAPI(many=True)
-  
+users_schema =  UsersAPI(many=True)
+user_schema = UsersAPI()
 
     
        
@@ -55,11 +64,45 @@ coronas_schema = CoronaAPI(many=True)
 def sh():
     return "hello world"
         
-@app.route('/api')
-def hello():
-    data = corona_data.query.all()
-    response = coronas_schema.dump(data)
+@app.route('/api/all/<api_key>')
+def hello(api_key):
+    check_api = Users.query.filter_by(api_key=api_key).first()
+    if check_api:
+        data = corona_data.query.all()
+        response = coronas_schema.dump(data)
+        return jsonify(response)
+    else:
+        response = {"error": "incorrect API key"}
+        return response
+
+
+@app.route('/api/state/<api_key>/<state>')
+def show(api_key,state):
+    check_api = Users.query.filter_by(api_key=api_key).first()
+    if check_api:
+        result = corona_data.query.filter_by(state=state.lower())
+        response = coronas_schema.dump(result)
+        return jsonify(response)
+    else:
+        response = {"error": "incorrect API key"}
+        return response
+
+
+
+@app.route('/api/users')
+def all_users():
+    data = Users.query.all()
+    response = users_schema.dump(data)
     return jsonify(response)
+
+@app.route('/api/users/<id>')
+def user(id):
+    data = Users.query.filter_by(id = id).first()
+    db.session.delete(data)
+    db.session.commit()
+    response = {'message':'Deleted', 'status':200}
+    return jsonify(response)
+
 
 
 @app.route('/collect')
@@ -92,11 +135,9 @@ def collect():
             break
     return "success"
 
-@app.route('/api/<state>')
-def show(state):
-    result = corona_data.query.filter_by(state=state.lower())
-    response = coronas_schema.dump(result)
-    return jsonify(response)
+
+
+
 
 
 
@@ -112,11 +153,10 @@ def blogPage():
 
 
 
-
 @app.route('/users/<email>')
 def global_api(email):
     api_key = ''.join(random.choices(string.ascii_letters + string.digits, k=25))
-    user = Users(email = email, api_key = api_key)
+    user = Users(id=1,email = email, api_key = api_key,created="0")
     db.session.add(user)
     db.session.commit()  
     response = {
@@ -126,9 +166,13 @@ def global_api(email):
         }
     
     return response
-       
+
+
+
+
     
 
 
 if __name__ == '__main__':
-    app.run()          
+    app.debug = True
+    app.run()     
