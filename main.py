@@ -113,7 +113,7 @@ def blogPage():
 
 
 
-@app.route('/users/<email>',methods['GET'])
+@app.route('/users/<email>')
 def global_api(email):
     api_key = ''.join(random.choices(string.ascii_letters + string.digits, k=25))
     user = Users(email = email, api_key = api_key)
@@ -131,9 +131,4 @@ def global_api(email):
 
 
 if __name__ == '__main__':
-    app.debug = True
     app.run()          
-
-# if __name__ == '__main__':
-#     app.debug = True
-#     app.run()
