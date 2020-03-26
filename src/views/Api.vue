@@ -16,9 +16,9 @@
             </div>
 
 
-            <div class="col-6 mx-auto mt-3" v-if="res.api_key">
+            <div class="col-12 mx-auto mt-3" v-if="res.api_key">
                 <input type="text" v-if="res.api_key" :value="res.api_key" disabled class="form-control text-center">
-            <div class="container mx-auto pl-5 pr-5">
+            <div class="container mx-auto mt-4">
 <pre>
     GET ALL RESPONSE - 'https://whereiscovidapi.herokuapp.com/api/all/YOUR_API_KEY'
     GET BY STATE - 'https://whereiscovidapi.herokuapp.com/api/state/YOUR_API_KEY/state'
