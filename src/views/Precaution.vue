@@ -2,7 +2,7 @@
  <div>
 <div class="container mt-5" >
     <div class="text-center">
-    <img src="@/assets/virus (1).png" class="img-responsive img-fluid" style="height: 100px;" >
+    <img src="@/assets/v.png" class="img-responsive img-fluid" style="height: 100px;" >
     </div>
 
     <h1 class="text-center text-upppercase mt-4">Precaution for COVID 19</h1>

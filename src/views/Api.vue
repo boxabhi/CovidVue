@@ -3,7 +3,7 @@
         <div class="container text-center mt-3">
             <img src="@/assets/virus.png" class="img-responsive img-fluid" style="height: 100px;">
             <h2 class="text-uppercase mt-2">Get your API key </h2>
-            <div class="col-6 text-center mx-auto">
+            <div class="col-12 text-center mx-auto">
                 <div class="input-group pt-2">
                     <input type="email" v-model="email" placeholder="Email" class="form-control">
                     <div class="input-group-append">
