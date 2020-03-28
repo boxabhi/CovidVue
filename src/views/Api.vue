@@ -21,9 +21,8 @@
             <div class="container mx-auto mt-4">
 <pre>
     GET ALL RESPONSE - 'https://whereiscovidapi.herokuapp.com/api/all/YOUR_API_KEY'
-    GET BY STATE - 'https://whereiscovidapi.herokuapp.com/api/state/YOUR_API_KEY/state'
-    <p>You can search for 25 states data 
-        <br>Happy coding! :)
+
+    <p>Happy coding! :)
     </p>
 </pre>
         </div>
@@ -33,17 +32,18 @@
 
         </div>
 
-<div class="mt-5 pt-5"></div>
+<div class="mt-5 mb-3 pt-5"></div>
 <div class="container text-center mt-5 pt-5">
     <img src="@/assets/quarantine.png" class="img-responsive imf-fluid" style="height:50px"> #BeatHome
 </div>
 
 
-<div class="container-fluid bg-dark mt-5">
-    <footer class="text-center">
-        <p class="mt-3 p-3 text-white" >Created by Abhijeet <i class="fas fa-mug-hot"></i></p>
-    </footer>
-</div>
+ <div class="container-fluid bg-dark">
+    <div class="container text-center p-3 text-white">
+      #BeAtHome
+      <p class="text-white h6">Created by Abhijeet Gupta <i class="fas fa-mug-hot"></i> </p>
+    </div>
+  </div>
     </div>
 </template>
 

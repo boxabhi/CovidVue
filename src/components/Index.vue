@@ -25,7 +25,7 @@
   <div class="progress-info">
     <div class="progress-label">
       <span>Covid-19 Real Time Data</span>
-       <span class="pull-right ml-4">Uttar Pradesh</span>
+       <span class="pull-right ml-4">{{info[3]}}</span>
     </div>
   </div>
   <div class="progress">
@@ -61,14 +61,14 @@
         <div class="shadow p-3 m-3 bg-white rounded text-center">
         <span>  <i class="fas fa-smile-beam text-success"></i></span>
           <p>Discharged</p>
-          <h2 v-if="active[0].recovered"> {{active[0].recovered}}</h2>
+          <h2 > {{active[0].recovered}}</h2>
         </div>
       </div>
         <div class="col-6">
         <div class="shadow p-3 m-3 bg-white rounded text-center">
            <span>  <i class="fas fa-sad-tear text-danger"></i></span>
           <p>Death</p>
-          <h2 v-if="active[0].death"> {{active[0].death}}</h2>
+          <h2 > {{active[0].death}}</h2>
         </div>
       </div>
    </div>
@@ -80,11 +80,9 @@
           <div class="col-6">
              <img src="@/assets/india.png" class="img-responsive p-2" style="height :90px" >
           </div>
-          <div class="col-6">
-            <h3>{{info[1]}} | {{info[0]}}</h3>
-            <p class="h6 ml-3">You live here</p>
-            <p class="h6">Infected <i class="fas fa-virus text-danger"></i> 745</p>
-            <p class="h6">Discharge <i class="fas fa-arrow-up text-success"></i> 745</p>
+          <div class="col-6 mt-3">
+            <h5>{{info[0]}} | {{info[1]}}</h5>
+            <p class="h6 ml-4">You live here</p>
           </div>
         </div>
       </div>
@@ -104,9 +102,11 @@
   <tbody>
     <tr v-for="state in states" v-bind:key="state.id">
       
-      <td v-if="state.state">{{(state.state).substring(0,15)}}</td>
-      <td v-if="state.confirmed">{{state.confirmed}}</td>
-      <td v-if="state.discharged">{{state.discharged}}</td>
+      <td v-if="state.state == info[1]"
+       class="bg-success text-white"><i class="fas fa-thumbtack "></i> {{(state.state).substring(0,15)}}</td>
+      <td v-else>{{(state.state).substring(0,15)}}</td>
+      <td >{{state.confirmed}}</td>
+      <td >{{state.discharged}}</td>
     </tr>
    
   </tbody>
@@ -197,6 +197,7 @@
 
 <script>
 import axios from 'axios';
+import NProgress from 'nprogress'
 export default {
   data(){
     return {
@@ -208,51 +209,52 @@ export default {
   methods :{
     //E1BYpVwtm8LiUS3vgSUEETh5a
       callApi(){
-        axios.get("https://cors-anywhere.herokuapp.com/https://whereiscovidapi.herokuapp.com/api/all")
+        axios.get("https://cors-anywhere.herokuapp.com/https://whereiscovidapi.herokuapp.com/api/all/E1BYpVwtm8LiUS3vgSUEETh5a")
         .then(response => {   
           this.states = response.data
         })
-        .catch(error => console.log(error))
+        
       },
       callCases(){
         axios.get("https://cors-anywhere.herokuapp.com/https://whereiscovidapi.herokuapp.com/api/active_Case/all")
         .then(response => {   
           this.active = response.data
         })
-        .catch(error => console.log(error))
+       
       },
       callLocation(){
-          axios.get("https://api.ipify.org/?format=json")
+        const instance =  axios.get("https://api.ipify.org/?format=json")
           .then(response =>{
             axios.get(`https://ipapi.co/${response.data.ip}/json/`)
             .then(response => {
-              //console.log(response.data)
+              
               this.info.push(response.data.country)
                this.info.push(response.data.region)
                this.info.push(response.data.region_code)
               this.info.push(response.data.city)
-             // console.log("Info",this.info)
+            
             })
             
           })
-      },
-      getByState(){
-        for(var i=0;i<this.state.length;i++){
-          if(this.state[i].state == this.info[0]){
-            console.log("Found")
-          }else{
-            console.log(this.state[i])
-          }
 
-      }
-      }
+    instance.interceptors.request.use(config => {
+  NProgress.start()
+  return config
+})
+
+// before a response is returned stop nprogress
+instance.interceptors.response.use(response => {
+  NProgress.done()
+  return response
+})
+      },
+      
   },
   created(){
     this.callApi();
     this.callCases();
     this.callLocation();
-    this.getByState();
-    console.log(this.info)
+   
   }
 }
 </script>
