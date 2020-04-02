@@ -120,7 +120,7 @@
         <h2 class="text-center">What to Do?</h2>
         <div class="row container">
           <div class="col-7">
-            <p id="info" class="h6 mt-4 justify-text">If you are a developer check get my API and use it.</p>
+            <p id="info" class="h6 mt-4 justify-text">If you are a developer check my API and use it.</p>
         <router-link to="/api"> 
          <span class="badge badge-success p-1">Check</span>
         </router-link>
