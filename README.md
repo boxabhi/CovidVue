@@ -1,4 +1,13 @@
-# corona
+# corona covid-19 REST API with flask
+# frontend done in Vue.js 
+
+# Below are the screen shot of the End Application
+
+![alt text](one.png)
+
+
+![alt text](two.png)
+
 
 ## Project setup
 ```
