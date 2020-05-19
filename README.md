@@ -1,4 +1,4 @@
-# corona covid-19 REST API with flask
+# Corona virus time data |  Covid-19 REST API with flask
 # frontend done in Vue.js 
 
 # Below are the screen shot of the End Application
