@@ -1,6 +1,10 @@
 <template>
+
+
   <div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-default">
+
+  
+    <nav class="navbar navbar-expand-lg navbar-dark bg-default" >
     <div class="container">
         <a class="navbar-brand" href="#">Covid-19</a>
       <span class="text-white"> <i class="fas fa-viruses"></i></span>
@@ -8,9 +12,7 @@
             <div class="navbar-collapse-header">
                 <div class="row">
                     <div class="col-6 collapse-brand">
-                        <a href="javascript:void(0)">
-                            <img src="">
-                        </a>
+                       
                     </div>
                   
                 </div>
@@ -18,8 +20,13 @@
         </div>
     </div>
 </nav>
+       
+     
+       
 
-<div class="card  shadow-lg  m-3 bg-white rounded">
+<div >
+<div class="card  shadow-lg  m-3 bg-white rounded" >
+  
   <div class="card-body">
     <div class="progress-wrapper">
   <div class="progress-info">
@@ -114,7 +121,7 @@
     </div>
     </div>
 
-
+</div>
      <div class="container mb-4">
       <div class="shadow p-3  bg-white rounded">
         <h2 class="text-center">What to Do?</h2>
@@ -197,33 +204,38 @@
 
 <script>
 import axios from 'axios';
-import NProgress from 'nprogress'
+
 export default {
+  components: {
+  
+  },
   data(){
     return {
       states : [],
       active : [],
       info : [],
+      loading : true
     }
   },
   methods :{
-    //E1BYpVwtm8LiUS3vgSUEETh5a
-      callApi(){
-        axios.get("https://cors-anywhere.herokuapp.com/https://whereiscovidapi.herokuapp.com/api/all/E1BYpVwtm8LiUS3vgSUEETh5a")
+    
+    async  callApi(){
+     await axios.get("https://cors-anywhere.herokuapp.com/https://whereiscovidapi.herokuapp.com/api/all/E1BYpVwtm8LiUS3vgSUEETh5a")
         .then(response => {   
           this.states = response.data
+         
         })
         
       },
-      callCases(){
-        axios.get("https://cors-anywhere.herokuapp.com/https://whereiscovidapi.herokuapp.com/api/active_Case/all")
+    async  callCases(){
+    await  axios.get("https://cors-anywhere.herokuapp.com/https://whereiscovidapi.herokuapp.com/api/active_Case/all")
         .then(response => {   
           this.active = response.data
         })
        
       },
-      callLocation(){
-        const instance =  axios.get("https://api.ipify.org/?format=json")
+     async callLocation(){
+      await axios.get("https://api.ipify.org/?format=json")
           .then(response =>{
             axios.get(`https://ipapi.co/${response.data.ip}/json/`)
             .then(response => {
@@ -235,18 +247,8 @@ export default {
             
             })
             
+             this.loading = false
           })
-
-    instance.interceptors.request.use(config => {
-  NProgress.start()
-  return config
-})
-
-// before a response is returned stop nprogress
-instance.interceptors.response.use(response => {
-  NProgress.done()
-  return response
-})
       },
       
   },
